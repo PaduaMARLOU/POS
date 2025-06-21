@@ -1,11 +1,16 @@
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const icon = document.getElementById('toggle-icon');
+    const isMobile = window.innerWidth <= 768;
 
-    const isCollapsed = sidebar.classList.toggle('collapsed');
-    icon.setAttribute('data-lucide', isCollapsed ? 'chevron-right' : 'chevron-left');
+    if (isMobile) {
+        sidebar.classList.toggle('open');
+    } else {
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+        icon.setAttribute('data-lucide', isCollapsed ? 'chevron-right' : 'chevron-left');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+    }
 
-    localStorage.setItem('sidebarCollapsed', isCollapsed);
     lucide.createIcons();
 }
 
@@ -13,13 +18,18 @@ function toggleSidebar() {
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const icon = document.getElementById('toggle-icon');
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    const isMobile = window.innerWidth <= 768;
 
-    if (isCollapsed) {
-        sidebar.classList.add('collapsed');
-        icon.setAttribute('data-lucide', 'chevron-right');
+    if (!isMobile) {
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            icon.setAttribute('data-lucide', 'chevron-right');
+        } else {
+            icon.setAttribute('data-lucide', 'chevron-left');
+        }
     } else {
-        icon.setAttribute('data-lucide', 'chevron-left');
+        icon.setAttribute('data-lucide', 'chevron-left'); // default for mobile
     }
 
     lucide.createIcons();

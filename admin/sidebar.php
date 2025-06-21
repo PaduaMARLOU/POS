@@ -8,7 +8,7 @@
     </button>
 
     <h2>Menu</h2>
-    <ul>
+    <ul class="menu-links">
         <li>
             <a href="dashboard.php">
                 <i data-lucide="home"></i> <span>Dashboard</span>
@@ -30,6 +30,12 @@
             </a>
         </li>
     </ul>
+
+    <div class="logout-link">
+        <a href="logout.php">
+            <i data-lucide="log-out"></i> <span>Logout</span>
+        </a>
+    </div>
 </div>
 
 <script src="js/sidebar.js"></script>
