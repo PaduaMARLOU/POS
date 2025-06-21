@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php");
+    header("Location: admin/dashboard.php");
     exit();
 }
 
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $update = $pdo->prepare("UPDATE users SET last_login = NOW(), login_attempts = 0 WHERE id = ?");
             $update->execute([$user['id']]);
 
-            header("Location: dashboard.php");
+            header("Location: admin/dashboard.php");
             exit();
         } else {
             // Wrong password: increment login_attempts
