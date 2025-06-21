@@ -17,13 +17,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        header("Location: dashboard.php");
-        exit();
+    if ($user) {
+        if (!$user['is_active']) {
+            $error = "Account is deactivated.";
+        } elseif ($user['is_locked']) {
+            $error = "Account is locked due to multiple failed login attempts.";
+        } elseif (password_verify($password, $user['password'])) {
+            // Successful login
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['account_type'] = $user['account_type'];
+
+            // Reset login attempts
+            $update = $pdo->prepare("UPDATE users SET last_login = NOW(), login_attempts = 0 WHERE id = ?");
+            $update->execute([$user['id']]);
+
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            // Wrong password: increment login_attempts
+            $newAttempts = $user['login_attempts'] + 1;
+            $isLocked = $newAttempts >= 5 ? 1 : 0;
+
+            $update = $pdo->prepare("UPDATE users SET login_attempts = ?, is_locked = ? WHERE id = ?");
+            $update->execute([$newAttempts, $isLocked, $user['id']]);
+
+            $error = $isLocked ? "Account locked after 5 failed attempts." : "Invalid username or password.";
+        }
     } else {
-        $error = "Invalid username or password";
+        $error = "Invalid username or password.";
     }
 }
 ?>
@@ -57,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" id="loginButton">Login</button>
         </form>
     </div>
 
