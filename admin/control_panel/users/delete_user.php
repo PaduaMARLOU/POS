@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Invalid user ID.');
     }
 
-    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+    // Soft delete: set is_active = 0 and is_locked = 1
+    $stmt = $pdo->prepare("UPDATE users SET is_active = 0, is_locked = 1 WHERE id = ?");
     $stmt->execute([$id]);
 
     header('Location: ../../control_panel.php?page=users');
