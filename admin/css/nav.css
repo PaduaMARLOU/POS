@@ -161,5 +161,7 @@ body {
         width: 100%;
         font-size: 1.25rem;
         padding: 1rem;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
