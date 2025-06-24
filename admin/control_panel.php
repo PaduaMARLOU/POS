@@ -4,6 +4,11 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit;
 }
+
+require '../db.php';
+
+$page = $_GET['page'] ?? 'users';
+$allowedPages = ['users', 'configs'];
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +27,22 @@ if (!isset($_SESSION['user_id'])) {
 
     <div class="content">
         <h2>Control Panel</h2>
-        <p>This is the control panel. Configure system settings from here.</p>
+        <p>This is the control panel. Use the buttons below to manage different settings.</p>
+
+        <div class="tab-buttons">
+            <a href="?page=users" class="<?= $page === 'users' ? 'active' : '' ?>">Users</a>
+            <a href="?page=configs" class="<?= $page === 'configs' ? 'active' : '' ?>">Configs</a>
+            <!-- Add more tabs here -->
+        </div>
+
+        <?php
+        $fileToInclude = "control_panel/{$page}.php";
+        if (in_array($page, $allowedPages) && file_exists($fileToInclude)) {
+            include $fileToInclude;
+        } else {
+            echo "<p><strong>Invalid section.</strong></p>";
+        }
+        ?>
     </div>
 
 </body>
