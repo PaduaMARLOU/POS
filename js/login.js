@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons(); // Render initial icons
+    lucide.createIcons(); // Initial icon rendering
 
-    // Toggle password visibility
     const toggleBtn = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
 
     if (toggleBtn && passwordInput) {
         toggleBtn.addEventListener('click', () => {
-            const isPassword = passwordInput.type === 'password';
-            passwordInput.type = isPassword ? 'text' : 'password';
+            const isPasswordHidden = passwordInput.type === 'password';
+            passwordInput.type = isPasswordHidden ? 'text' : 'password';
 
-            // Change the icon
-            toggleBtn.innerHTML = `<i data-lucide="${isPassword ? 'eye' : 'eye-off'}"></i>`;
-            lucide.createIcons(); // Re-render icon
+            // Set icon based on new state
+            toggleBtn.innerHTML = `<i data-lucide="${isPasswordHidden ? 'eye-off' : 'eye'}"></i>`;
+            lucide.createIcons();
         });
     }
 

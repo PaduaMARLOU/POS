@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="password-wrapper">
                 <input type="password" name="password" id="password" required>
                 <button type="button" id="togglePassword" class="toggle-password" aria-label="Toggle password visibility">
-                    <i data-lucide="eye-off"></i>
+                    <i data-lucide="eye"></i>
                 </button>
             </div>
 
