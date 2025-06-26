@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php");
+    header("Location: admin/index.php"); // optionally keep this or add a role check
     exit();
 }
 
@@ -32,7 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $update = $pdo->prepare("UPDATE users SET last_login = NOW(), login_attempts = 0 WHERE id = ?");
             $update->execute([$user['id']]);
 
-            header("Location: admin/dashboard.php");
+            if ($user['account_type'] === 'admin') {
+                header("Location: admin/index.php");
+            } else {
+                header("Location: forbidden.php");
+            }
             exit();
         } else {
             // Wrong password: increment login_attempts

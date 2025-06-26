@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Username already exists.";
         } else {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users (username, password, account_type) VALUES (?, ?, 'admin')");
+            $stmt = $pdo->prepare("INSERT INTO users (username, password, account_type) VALUES (?, ?, 'user')");
             $stmt->execute([$username, $hashedPassword]);
-            $success = "Admin registered successfully!";
+            $success = "User registered successfully!";
         }
     }
 }
