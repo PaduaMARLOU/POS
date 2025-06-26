@@ -31,6 +31,7 @@ $categories = array_unique(array_column($products, 'category'));
 
   <div class="tab-buttons">
     <a href="products/add_product.php" class="button">+ Add Product</a>
+    <a href="products/refill_product.php" class="button">+ Refill Product</a>
 
     <input type="text" id="searchInput" placeholder="Search product..." style="padding: 10px; width: 200px;" onkeyup="filterTable()">
     <select id="categoryFilter" onchange="filterTable()" style="padding: 10px;">

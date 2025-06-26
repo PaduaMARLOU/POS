@@ -111,7 +111,7 @@ form a:hover {
     text-align: right;
 }
 
-/* Tablet: keep two-column */
+/* Responsive Tablet */
 @media screen and (max-width: 768px) {
     form {
         padding: 20px;
@@ -127,12 +127,13 @@ form a:hover {
     }
 }
 
-/* Mobile: stack columns vertically */
-@media screen and (max-width: 480px) {
+/* ✅ Responsive Mobile Fix for Narrow Phones like Samsung A12 */
+@media screen and (max-width: 540px) {
     form {
         padding: 16px;
         margin: 16px 8px;
         border-radius: 8px;
+        max-width: 100%;
     }
 
     form h2 {
